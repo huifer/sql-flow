@@ -1,0 +1,18 @@
+<configuration>
+
+  <!-- 配置日志输出到控制台 -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 设置 root 日志级别为 DEBUG -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+  </root>
+
+  <!-- 配置 NamedParameterJdbcTemplate 的 SQL 日志级别为 DEBUG -->
+<!--  <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />-->
+<!--  <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE" />-->
+</configuration>

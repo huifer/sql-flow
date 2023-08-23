@@ -1,0 +1,24 @@
+{
+  "sql": "select * from table_a",
+  "type": "query",
+  "query_field": [
+    {
+      "desc": "",
+      "en_name": ""
+    },
+    {
+      "desc": "",
+      "en_name": ""
+    },
+    {
+      "desc": "",
+      "en_name": ""
+    }
+  ],
+  "where_field": [
+    {
+      "en_name": "",
+      "desc": ""
+    }
+  ]
+}
