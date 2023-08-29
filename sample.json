@@ -1,24 +1,75 @@
 {
-  "sql": "select * from table_a",
-  "type": "query",
-  "query_field": [
-    {
-      "desc": "",
-      "en_name": ""
+  "start": {
+    "sql": " SELECT\n          a.id,\n          a.name,\n          a.type,\n          a.size,\n          a.time,\n          b.description,\n          c.project_name,\n          CASE\n            WHEN a.size < 10 THEN 'Small'\n            WHEN a.size >= 10 AND a.size < 50 THEN 'Medium'\n            ELSE 'Large'\n          END AS size_category\n        FROM\n          table_a a\n        LEFT JOIN\n          table_b b ON a.type = b.type_id\n        LEFT JOIN\n          table_c c ON a.type = c.type_id and c.id in (:uc)\n        WHERE\n          a.type IN (1, 2, 3)\n          AND (b.description IS NOT NULL OR c.project_name IS NOT NULL)\n          AND (c.project_status = :uuu OR c.project_status IS NULL)\n        ORDER BY\n          a.id;",
+    "queryResponseFields": [
+      {
+        "desc": "主键",
+        "enName": "a.id"
+      },
+      {
+        "desc": "名称",
+        "enName": "a.NAME"
+      },
+      {
+        "desc": "类型",
+        "enName": "a.type"
+      },
+      {
+        "desc": "尺寸",
+        "enName": "a.size"
+      },
+      {
+        "desc": "描述",
+        "enName": "b.description"
+      },
+      {
+        "desc": "项目",
+        "enName": "c.project_name"
+      }
+    ],
+    "whereFields": [
+      {
+        "desc": "主键",
+        "enName": "uuu"
+      },
+      {
+        "desc": "主键",
+        "enName": "uc"
+      }
+    ],
+    "jdbcTemplate": {
+      "ignoreWarnings": true,
+      "fetchSize": -1,
+      "maxRows": -1,
+      "queryTimeout": -1,
+      "skipResultsProcessing": false,
+      "skipUndeclaredResults": false,
+      "resultsMapCaseInsensitive": false,
+      "logger": {
+        "name": "org.springframework.jdbc.core.JdbcTemplate"
+      },
+      "dataSource": {
+        "jdbcUrl": "jdbc:log4jdbc:mysql://192.168.1.11:3306/sql-flow?useSSL\u003dfalse\u0026serverTimezone\u003dAsia/Shanghai\u0026characterEncoding\u003dutf-8\u0026allowPublicKeyRetrieval\u003dtrue\u0026useSSL\u003dfalse",
+        "driverProperties": {
+          "password": "YouCon123!",
+          "user": "root"
+        },
+        "driver": {
+          "lastUnderlyingDriverRequested": {}
+        }
+      },
+      "lazyInit": true
     },
-    {
-      "desc": "",
-      "en_name": ""
-    },
-    {
-      "desc": "",
-      "en_name": ""
-    }
-  ],
-  "where_field": [
-    {
-      "en_name": "",
-      "desc": ""
-    }
-  ]
+    "uid": "node_1"
+  },
+  "end": {
+    "table": "t_ins",
+    "insertMappings": [
+      {
+        "source": "project_name",
+        "target": "ug"
+      }
+    ],
+    "uid": "node_2"
+  }
 }

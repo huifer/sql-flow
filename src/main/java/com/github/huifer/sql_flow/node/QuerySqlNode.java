@@ -13,6 +13,7 @@ import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Setter
@@ -85,6 +86,7 @@ public class QuerySqlNode extends AbstractSqlNode {
   }
 
 
+  @Transactional(rollbackFor = Exception.class)
   @Override
   public List<Map<String, Object>> run(Object param) {
     return this.execute(getJdbcTemplate(), (Map<String, Object>) param);

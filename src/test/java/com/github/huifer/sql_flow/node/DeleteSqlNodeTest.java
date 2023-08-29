@@ -23,7 +23,6 @@ class DeleteSqlNodeTest {
         DELETE FROM t_ins where id = :id
         """);
 
-
     ArrayList<FieldMono> whereFields1 = new ArrayList<>();
     whereFields1.add(new FieldMono("主键", "id"));
     whereFields1.add(new FieldMono("主键", "uc"));

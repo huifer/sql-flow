@@ -1,8 +1,10 @@
 package com.github.huifer.sql_flow.node;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import com.github.huifer.sql_flow.utils.FlowTempStorageUtils;
+import com.github.huifer.sql_flow.utils.GsonFactory;
+import com.google.gson.Gson;
 import com.zaxxer.hikari.util.DriverDataSource;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +15,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 class EdgeTest {
 
+  Gson gson = GsonFactory.getGson();
 
   @Test
-  public void run(){
+  public void run()throws Exception{
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     jdbcTemplate.setDataSource(new DriverDataSource(
         "jdbc:log4jdbc:mysql://192.168.1.11:3306/sql-flow?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false",
         "net.sf.log4jdbc.DriverSpy", new Properties(), "root", "YouCon123!"));
+
+    Connection connection = jdbcTemplate.getDataSource().getConnection();
+    connection.setAutoCommit(false);
+
+
 
     QuerySqlNode queryNode = new QuerySqlNode(jdbcTemplate);
     queryNode.setUid("node_1");
@@ -85,8 +93,13 @@ class EdgeTest {
     insertNode.setTable("t_ins");
 
     Edge edge = new Edge();
+
     edge.setStart(queryNode);
     edge.setEnd(insertNode);
+    String json = gson.toJson(edge);
+    System.out.println(json);
     edge.run(param);
+    Map<String, Object> queryData = FlowTempStorageUtils.getQueryData();
+    System.out.println(gson.toJson(queryData));
   }
 }

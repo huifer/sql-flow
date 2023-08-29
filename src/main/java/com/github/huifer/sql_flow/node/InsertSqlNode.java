@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import javax.sql.DataSource;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 @Getter
 @Setter
@@ -22,14 +26,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class InsertSqlNode extends AbstractSqlNode {
 
   private String table;
+  private List<InsertMapping> insertMappings;
 
   public InsertSqlNode(JdbcTemplate jdbcTemplate) {
     super(jdbcTemplate);
   }
-
-  private List<InsertMapping> insertMappings;
-
-
 
   @Override
   public NodeType type() {
@@ -37,12 +38,19 @@ public class InsertSqlNode extends AbstractSqlNode {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
+
   public Integer run(Object param) {
-    return execute((List<Map<String, Object>>) param);
+    try {
+      return execute((List<Map<String, Object>>) param);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  public Integer execute( List<Map<String, Object>> params) {
-    if (table == null || insertMappings == null || insertMappings.isEmpty() || params == null || params.isEmpty()) {
+  public Integer execute(List<Map<String, Object>> params) throws Exception {
+    if (table == null || insertMappings == null || insertMappings.isEmpty() || params == null
+        || params.isEmpty()) {
       throw new IllegalArgumentException("Invalid input data for executing INSERT statement.");
     }
 

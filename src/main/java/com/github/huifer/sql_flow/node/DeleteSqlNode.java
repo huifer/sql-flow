@@ -11,6 +11,7 @@ import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Setter
@@ -79,6 +80,7 @@ public class DeleteSqlNode extends AbstractSqlNode {
   }
 
 
+  @Transactional(rollbackFor = Exception.class)
   @Override
   public Integer run(Object param) {
 
