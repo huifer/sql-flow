@@ -37,29 +37,6 @@
         "enName": "uc"
       }
     ],
-    "jdbcTemplate": {
-      "ignoreWarnings": true,
-      "fetchSize": -1,
-      "maxRows": -1,
-      "queryTimeout": -1,
-      "skipResultsProcessing": false,
-      "skipUndeclaredResults": false,
-      "resultsMapCaseInsensitive": false,
-      "logger": {
-        "name": "org.springframework.jdbc.core.JdbcTemplate"
-      },
-      "dataSource": {
-        "jdbcUrl": "jdbc:log4jdbc:mysql://192.168.1.11:3306/sql-flow?useSSL\u003dfalse\u0026serverTimezone\u003dAsia/Shanghai\u0026characterEncoding\u003dutf-8\u0026allowPublicKeyRetrieval\u003dtrue\u0026useSSL\u003dfalse",
-        "driverProperties": {
-          "password": "YouCon123!",
-          "user": "root"
-        },
-        "driver": {
-          "lastUnderlyingDriverRequested": {}
-        }
-      },
-      "lazyInit": true
-    },
     "uid": "node_1"
   },
   "end": {

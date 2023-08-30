@@ -6,3 +6,6 @@ spring:
     driver-class-name: net.sf.log4jdbc.DriverSpy
     username: root
     password: YouCon123!
+  jpa:
+    hibernate:
+      ddl-auto: update
